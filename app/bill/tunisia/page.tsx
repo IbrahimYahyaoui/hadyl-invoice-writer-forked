@@ -98,21 +98,33 @@ const index = () => {
 
     return total.toFixed(2);
   };
+
   useEffect(() => {
     const calculatedTotal = items
       .reduce((acc, item) => {
-        const itemTotal = parseFloat(item.total) || 0;
-        return acc + itemTotal;
+        // Remove non-numeric characters and currency signs from price and total
+        const cleanPrice =
+          parseFloat(item.price.replace(/[^\d.,]/g, "").replace(",", ".")) || 0;
+        const cleanTotal =
+          parseFloat(item.total.replace(/[^\d.,]/g, "").replace(",", ".")) || 0;
+
+        // Add cleanTotal to the accumulator
+        return acc + cleanTotal;
       }, 0)
       .toFixed(2);
 
     if (calculatedTotal !== "0.00") {
       setTht(calculatedTotal);
+
       setTtc(
-        (
-          parseFloat(calculatedTotal) -
-          (parseFloat(calculatedTotal) * parseFloat(Tva) || 0) / 100
-        ).toFixed(2)
+        currency.format(
+          parseFloat(
+            (
+              parseFloat(calculatedTotal) -
+              (parseFloat(calculatedTotal) * parseFloat(Tva) || 0) / 100
+            ).toFixed(2)
+          )
+        )
       );
     } else {
       setTht("");
@@ -121,34 +133,31 @@ const index = () => {
   }, [items, Tva]);
 
   const handlePrint = () => {
-    const printItems = items.map((item) => ({
-      ...item,
-      price: item.price
-        ? currency.format(parseFloat(item.price))
-        : currency.format(0),
-      total: item.total
-        ? currency.format(parseFloat(item.total))
-        : currency.format(0),
-    }));
+    // Format the prices and totals
+    const formattedItems = items.map((item) => {
+      return {
+        ...item,
+        price: currency.format(parseFloat(item.price)),
+        total: currency.format(parseFloat(item.total)),
+      };
+    });
 
-    // Update the state with formatted values for printing
-    setItems(printItems);
-    setTht(currency.format(parseFloat(Tht)));
-    setTtc(currency.format(parseFloat(Ttc)));
+    // Set the formatted values
+    setItems(formattedItems);
 
+    // Print the page
     setTimeout(() => {
       window.print();
 
+      // Delay resetting the state to ensure the print dialog has opened
       setTimeout(() => {
-        setItems([
-          {
-            qty: "",
-            desc: "",
-            unit: "",
-            price: "",
-            total: "",
-          },
-        ]);
+        setItems(
+          items.map((item) => ({
+            ...item,
+            price: item.price ? parseFloat(item.price).toFixed(2) : "",
+            total: item.total ? parseFloat(item.total).toFixed(2) : "",
+          }))
+        );
         setTht("");
         setTtc("");
         setTva("");
@@ -365,7 +374,7 @@ const index = () => {
                     disableUnderline: true,
                   }}
                   multiline
-                  rows={2}
+                  rows={3}
                   sx={{ width: "60%", marginLeft: "-30px", marginTop: "-5px" }}
                 />
               </div>
@@ -450,7 +459,18 @@ const index = () => {
                       placeholder="x"
                       InputProps={{
                         disableUnderline: true,
-                        style: { fontSize: "18px" },
+                        style: {
+                          fontSize: "18px",
+                          width: "100px",
+                          marginTop: "5px",
+                        },
+                        inputProps: {
+                          style: {
+                            textAlign: "center",
+                            padding: 0,
+                            lineHeight: "normal", // Adjust line height if necessary
+                          },
+                        },
                       }}
                       onChange={(e) => {
                         setItems(
@@ -515,7 +535,17 @@ const index = () => {
                       placeholder="pc"
                       InputProps={{
                         disableUnderline: true,
-                        style: { fontSize: "18px" },
+                        style: {
+                          fontSize: "18px",
+                          marginTop: "5px",
+                          width: "60px",
+                        },
+                        inputProps: {
+                          style: {
+                            textAlign: "center",
+                            padding: 0,
+                          },
+                        },
                       }}
                       onChange={(e) => {
                         setItems(
@@ -536,7 +566,17 @@ const index = () => {
                       placeholder={currency.format(0)}
                       InputProps={{
                         disableUnderline: true,
-                        style: { fontSize: "18px" },
+                        style: {
+                          fontSize: "18px",
+                          marginTop: "5px",
+                          width: "120px",
+                        },
+                        inputProps: {
+                          style: {
+                            textAlign: "center",
+                            padding: 0,
+                          },
+                        },
                       }}
                       onChange={(e) => {
                         setItems(
@@ -566,18 +606,19 @@ const index = () => {
                       placeholder={currency.format(0)}
                       InputProps={{
                         disableUnderline: true,
-                        style: { fontSize: "18px" },
+                        style: {
+                          fontSize: "18px",
+                          width: "120px",
+                          marginTop: "5px",
+                        },
+                        inputProps: {
+                          style: {
+                            textAlign: "center",
+                            padding: 0,
+                          },
+                        },
                       }}
                       value={item.total || ""}
-                      onChange={(e) => {
-                        setItems(
-                          items.map((item, i) =>
-                            i === index
-                              ? { ...item, total: e.target.value }
-                              : item
-                          )
-                        );
-                      }}
                     />
                   </div>
                 </div>
