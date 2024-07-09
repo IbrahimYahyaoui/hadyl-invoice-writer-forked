@@ -201,7 +201,7 @@
   font-size: 20px;
   position: absolute;
   z-index: 999;
-  top: 235px;
+  top: 245px;
   right: 0;
   width: 460px;
 }
@@ -261,21 +261,22 @@
   position: relative;
   width: 100%;
 }
+
 .billItemPrice {
-  margin-left: 30px;
+  margin-left: 0px;
   width: 90px;
 }
 .billItemAmount {
-  margin-left: 35px;
+  margin-left: 0px;
   width: 90px;
 }
 .billItemQte {
   width: 57%;
-  margin-left: 40px;
+  margin-left: 0px;
 }
 .billItemUnit {
   width: 57%;
-  margin-left: 25px;
+  margin-left: 0px;
 }
 .billItemDesc textarea {
   width: 100%;
@@ -396,7 +397,8 @@
   }
   .billItemAmount {
     margin-left: 0px;
-    width: 100px;
+  }
+  .alignCenterONPrint {
     align-items: center;
   }
   .no-print {
