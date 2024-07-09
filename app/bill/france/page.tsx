@@ -35,7 +35,7 @@ const index = () => {
     })
   );
   useEffect(() => {
-    document.title = `Invoice ${uid}`;
+    document.title = `Invoice  ${uid}`;
   }, [uid]);
   const currencies = [
     { value: "EUR", label: "€ - Euro" },
