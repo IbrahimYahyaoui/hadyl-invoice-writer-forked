@@ -115,7 +115,7 @@ const index = () => {
         currency.format(
           parseFloat(
             (
-              parseFloat(calculatedTotal) -
+              parseFloat(calculatedTotal) +
               (parseFloat(calculatedTotal) * parseFloat(Tva) || 0) / 100
             ).toFixed(2)
           )
@@ -284,7 +284,7 @@ const index = () => {
       ) : (
         <></>
       )}
-<Button
+      <Button
         className="printIcon"
         onClick={handlePrint}
         disabled={isPrintDisabled}
