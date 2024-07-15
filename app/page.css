@@ -416,6 +416,10 @@
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+  /*  no margin  */
+  @page {
+    margin: 0;
+  }
 
   /* Other print-specific styles */
   .no-print {
