@@ -405,3 +405,20 @@
     opacity: 0;
   }
 }
+@media print {
+  body {
+    background: url("./assets/blanc.png") no-repeat center center;
+    background-size: cover;
+  }
+
+  /* Ensure that the background color is printed */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Other print-specific styles */
+  .no-print {
+    display: none;
+  }
+}
