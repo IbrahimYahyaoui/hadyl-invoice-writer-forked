@@ -116,7 +116,7 @@ const index = () => {
           parseFloat(
             (
               parseFloat(calculatedTotal) +
-              (parseFloat(calculatedTotal) * parseFloat(Tva) || 0) / 100
+              (parseFloat(calculatedTotal) * 20 || 0) / 100
             ).toFixed(2)
           )
         )
@@ -677,12 +677,12 @@ const index = () => {
                   </div>
                 </div>
                 <div className="tableFooterRow">
-                  <div className="tableFooterTitle">{"TVA (%) :"}</div>
+                  <div className="tableFooterTitle">{"TVA (20%) :"}</div>
                   <div className="tableFooterValue">
                     <TextField
                       id="discount"
                       variant="standard"
-                      placeholder={"20%"}
+                      placeholder={currency.format(0)}
                       InputProps={{
                         disableUnderline: true,
                         style: {
@@ -690,10 +690,15 @@ const index = () => {
                           height: "30px",
                         },
                       }}
-                      value={Tva}
-                      onChange={(e) => {
-                        setTva(e.target.value);
-                      }}
+                      //  if tht > 0 then calculate tva else set it to ""
+                      value={
+                        Tht.length > 0
+                          ? currency.format(
+                              (parseFloat(Tht.replace(/[^\d.,]/g, "")) * 20) /
+                                100
+                            )
+                          : ""
+                      }
                       size="medium"
                     />
                   </div>
@@ -783,7 +788,11 @@ const index = () => {
                             placeholder="04034120004048782978"
                             InputProps={{
                               disableUnderline: true,
-                              style: { height: "20px", width: "250px" },
+                              style: {
+                                height: "20px",
+                                width: "400px",
+                                flexWrap: "nowrap",
+                              },
                             }}
                             value={accountNb}
                             onChange={(e) => {

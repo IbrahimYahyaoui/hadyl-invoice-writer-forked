@@ -289,7 +289,7 @@ const index = () => {
       ) : (
         <></>
       )}
- <Button
+      <Button
         className="printIcon"
         onClick={handlePrint}
         disabled={isPrintDisabled}
@@ -783,7 +783,7 @@ const index = () => {
                             placeholder="04034120004048782978"
                             InputProps={{
                               disableUnderline: true,
-                              style: { height: "20px", width: "250px" },
+                              style: { height: "20px", width: "300px" },
                             }}
                             value={accountNb}
                             onChange={(e) => {
