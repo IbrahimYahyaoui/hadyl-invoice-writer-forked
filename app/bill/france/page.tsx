@@ -15,7 +15,7 @@ import phone from "../../assets/icons/phone.svg";
 import locationIcon from "../../assets/icons/location.svg";
 import QRCode from "react-qr-code";
 
-const index = () => {
+const Index = () => {
   const [mode, setMode] = useState<"BILL" | "BLANC">("BILL");
   //
   const [name, setName] = useState<string>("");
@@ -27,6 +27,7 @@ const index = () => {
   const [headText, setHeadText] = useState<string>("");
   const [isPrintDisabled, setIsPrintDisabled] = useState<boolean>(true);
   const [dateValue, setDateValue] = useState<string>("");
+
   // bill state
   const [currency, setCurrency] = useState<Intl.NumberFormat>(
     new Intl.NumberFormat("fr-FR", {
@@ -37,6 +38,7 @@ const index = () => {
   useEffect(() => {
     document.title = `Invoice  ${uid}`;
   }, [uid]);
+
   const currencies = [
     { value: "EUR", label: "€ - Euro" },
     { value: "USD", label: "$ - US Dollar" },
@@ -51,6 +53,7 @@ const index = () => {
       window.location.reload();
     }
   }, []);
+
   const changeCurrency = (currencyCode: string) => {
     setCurrency(
       new Intl.NumberFormat("fr-FR", {
@@ -59,13 +62,20 @@ const index = () => {
       })
     );
   };
-  const [accountBank, setAccountBank] = useState<string>("Attijari BANK");
-  const [accountName, setAccountName] = useState<string>("Ste HADYL Consult");
-  const [accountNb, setAccountNb] = useState<string>("04034120004048782978");
-  const [accountSwift, setAccountSwift] = useState<string>("BSTUTNTT");
+
+  // Payment details state
+  const [accountBank, setAccountBank] = useState<string>("BNP PARIBAS");
+  const [accountName, setAccountName] = useState<string>("HADYL Consult");
+  const [accountNb, setAccountNb] = useState<string>(
+    "FR76 3000 4012 3700 0101 4989 014"
+  );
+  const [accountSwift, setAccountSwift] = useState<string>("BNPAFRPPXXX");
+
   const [Tht, setTht] = useState<string>("");
   const [Ttc, setTtc] = useState<string>("");
+  // Set default TVA as 20%
   const [Tva, setTva] = useState<string>("20");
+
   const [items, setItems] = useState<
     {
       qty: string;
@@ -94,6 +104,7 @@ const index = () => {
 
     return total.toFixed(2);
   };
+
   useEffect(() => {
     const calculatedTotal = items
       .reduce((acc, item) => {
@@ -103,29 +114,24 @@ const index = () => {
         const cleanTotal =
           parseFloat(item.total.replace(/[^\d.,]/g, "").replace(",", ".")) || 0;
 
-        // Add cleanTotal to the accumulator
         return acc + cleanTotal;
       }, 0)
       .toFixed(2);
 
     if (calculatedTotal !== "0.00") {
-      setTht(currency.format(parseFloat(calculatedTotal)));
-
-      setTtc(
-        currency.format(
-          parseFloat(
-            (
-              parseFloat(calculatedTotal) +
-              (parseFloat(calculatedTotal) * 20 || 0) / 100
-            ).toFixed(2)
-          )
-        )
-      );
+      const totalNumber = parseFloat(calculatedTotal);
+      setTht(currency.format(totalNumber));
+      // Use the dynamic TVA rate (parseFloat(Tva)) in the calculation
+      const ttcValue = (
+        totalNumber +
+        (totalNumber * parseFloat(Tva)) / 100
+      ).toFixed(2);
+      setTtc(currency.format(parseFloat(ttcValue)));
     } else {
       setTht("");
       setTtc("");
     }
-  }, [items, Tva]);
+  }, [items, Tva, currency]);
 
   const handlePrint = () => {
     // Format the prices and totals
@@ -155,7 +161,8 @@ const index = () => {
         );
         setTht("");
         setTtc("");
-        setTva("");
+        // Reset TVA to default (20%) after printing
+        setTva("20");
       }, 100);
     }, 100);
   };
@@ -224,45 +231,80 @@ const index = () => {
       </ButtonGroup>
 
       {mode === "BILL" ? (
-        <ButtonGroup
-          className="currencySelect"
-          sx={{
-            position: "fixed",
-            right: "20px",
-            top: "20px",
-            backgroundColor: "white",
-            zIndex: 100,
-          }}
-          disableElevation
-          variant="contained"
-          orientation="vertical"
-          aria-label="currency button group"
-        >
-          {currencies.map((cur) => (
-            <Button
-              key={cur.value}
-              onClick={() => changeCurrency(cur.value)}
-              sx={{
-                backgroundColor:
-                  currency.resolvedOptions().currency === cur.value
-                    ? "#1477cc"
-                    : "black",
+        <>
+          {/* Currency Selection */}
+          <ButtonGroup
+            className="currencySelect"
+            sx={{
+              position: "fixed",
+              right: "20px",
+              top: "20px",
+              backgroundColor: "white",
+              zIndex: 100,
+            }}
+            disableElevation
+            variant="contained"
+            orientation="vertical"
+            aria-label="currency button group"
+          >
+            {currencies.map((cur) => (
+              <Button
+                key={cur.value}
+                onClick={() => changeCurrency(cur.value)}
+                sx={{
+                  backgroundColor:
+                    currency.resolvedOptions().currency === cur.value
+                      ? "#1477cc"
+                      : "black",
+                  color: "white",
+                  opacity:
+                    currency.resolvedOptions().currency === cur.value ? 1 : 0.5,
+                }}
+              >
+                {cur.label}
+              </Button>
+            ))}
+          </ButtonGroup>
 
-                color:
-                  currency.resolvedOptions().currency === cur.value
-                    ? "white"
-                    : "white",
-                opacity:
-                  currency.resolvedOptions().currency === cur.value ? 1 : 0.5,
+          {/* TVA Selection - placed below currency selection */}
+          <ButtonGroup
+            className="tvaSelect"
+            sx={{
+              position: "fixed",
+              right: "30px",
+              top: "230px", // adjust vertical position as needed
+              backgroundColor: "white",
+              zIndex: 100,
+            }}
+            disableElevation
+            variant="contained"
+            orientation="horizontal"
+            aria-label="TVA button group"
+          >
+            <Button
+              onClick={() => setTva("0")}
+              sx={{
+                backgroundColor: Tva === "0" ? "#1477cc" : "black",
+                color: "white",
+                opacity: Tva === "0" ? 1 : 0.5,
               }}
             >
-              {cur.label}
+              TVA 0%
             </Button>
-          ))}
-        </ButtonGroup>
-      ) : (
-        <></>
-      )}
+            <Button
+              onClick={() => setTva("20")}
+              sx={{
+                backgroundColor: Tva === "20" ? "#1477cc" : "black",
+                color: "white",
+                opacity: Tva === "20" ? 1 : 0.5,
+              }}
+            >
+              TVA 20%
+            </Button>
+          </ButtonGroup>
+        </>
+      ) : null}
+
       {mode === "BILL" ? (
         <div
           className="addIcon"
@@ -281,9 +323,7 @@ const index = () => {
         >
           <Image src={addIcon} alt="add" />
         </div>
-      ) : (
-        <></>
-      )}
+      ) : null}
       <Button
         className="printIcon"
         onClick={handlePrint}
@@ -306,7 +346,7 @@ const index = () => {
           boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
         }}
       >
-        <Image src={printIcon} alt="add" />
+        <Image src={printIcon} alt="print" />
       </Button>
       <div
         className={
@@ -319,7 +359,6 @@ const index = () => {
               id="outlined-basic"
               variant="standard"
               placeholder="...Adresse / Tél"
-              // make it borderless
               InputProps={{
                 disableUnderline: true,
               }}
@@ -414,42 +453,11 @@ const index = () => {
             <table className="billTable" cellSpacing="0">
               <thead>
                 <tr>
-                  <th
-                    style={{
-                      width: 100,
-                    }}
-                  >
-                    QTE
-                  </th>
-                  <th
-                    style={{
-                      width: 240,
-                    }}
-                  >
-                    Description
-                  </th>
-                  <th
-                    style={{
-                      width: 60,
-                    }}
-                  >
-                    Unit
-                  </th>
-                  <th
-                    style={{
-                      width: 120,
-                    }}
-                  >
-                    Unit Price
-                  </th>
-
-                  <th
-                    style={{
-                      width: 120,
-                    }}
-                  >
-                    Amount
-                  </th>
+                  <th style={{ width: 100 }}>QTE</th>
+                  <th style={{ width: 240 }}>Description</th>
+                  <th style={{ width: 60 }}>Unit</th>
+                  <th style={{ width: 120 }}>Unit Price</th>
+                  <th style={{ width: 120 }}>Amount</th>
                 </tr>
               </thead>
               <tbody>
@@ -481,7 +489,7 @@ const index = () => {
                           style: {
                             textAlign: "center",
                             padding: 0,
-                            lineHeight: "normal", // Adjust line height if necessary
+                            lineHeight: "normal",
                           },
                         },
                       }}
@@ -517,7 +525,6 @@ const index = () => {
                         inputComponent: TextareaAutosize,
                         inputProps: {
                           minRows: 2,
-
                           style: {
                             resize: "none",
                             width: 220,
@@ -677,7 +684,7 @@ const index = () => {
                   </div>
                 </div>
                 <div className="tableFooterRow">
-                  <div className="tableFooterTitle">{"TVA (20%) :"}</div>
+                  <div className="tableFooterTitle">{`TVA (${Tva}%) :`}</div>
                   <div className="tableFooterValue">
                     <TextField
                       id="discount"
@@ -690,11 +697,11 @@ const index = () => {
                           height: "30px",
                         },
                       }}
-                      //  if tht > 0 then calculate tva else set it to ""
                       value={
                         Tht.length > 0
                           ? currency.format(
-                              (parseFloat(Tht.replace(/[^\d.,]/g, "")) * 20) /
+                              (parseFloat(Tht.replace(/[^\d.,]/g, "")) *
+                                parseFloat(Tva)) /
                                 100
                             )
                           : ""
@@ -838,7 +845,7 @@ const index = () => {
               }}
             >
               <Image src={locationIcon} alt="add" width={20} />
-              53 Rue Amiral Mouchez 75013 Paris -
+              53 Rue Amiral Mouchez 75013 Paris -{" "}
               <Image src={phone} alt="add" width={20} />
               Tél. : +33 6 29 14 16 58
             </p>
@@ -869,4 +876,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
