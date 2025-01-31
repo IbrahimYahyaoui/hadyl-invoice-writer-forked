@@ -417,6 +417,11 @@ html {
   .currencySelect {
     display: none;
   }
+
+  .tvaSelect {
+    display: none;
+  }
+
   .billItemPrice {
     margin-left: 0px;
   }
