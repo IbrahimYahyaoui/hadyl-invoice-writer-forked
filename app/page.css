@@ -164,7 +164,7 @@
   right: 0;
   top: 130px;
   height: 155px;
-  background: rgba(0, 0, 0, 0.1);
+  background-color: rgba(118, 118, 118, 0.1);
   position: absolute;
   width: 480px;
 }
@@ -246,7 +246,7 @@
 }
 
 .billTable thead {
-  background: rgba(0, 0, 0, 0.3);
+  background-color: rgba(118, 118, 118, 0.1);
 }
 
 .billTable th {
