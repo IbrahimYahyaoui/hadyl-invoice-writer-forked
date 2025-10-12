@@ -399,7 +399,7 @@ const Index = () => {
                 <TextField
                   id="uid"
                   variant="standard"
-                  placeholder="2021XXXXX"
+                  placeholder={`${new Date().getFullYear()}XXXXX`}
                   value={uid}
                   onChange={(e) => setUid(e.target.value)}
                   InputProps={{
@@ -430,7 +430,6 @@ const Index = () => {
                 <TextField
                   id="uid"
                   variant="standard"
-                  placeholder="7/4/2021"
                   value={
                     dateValue.length === 0
                       ? new Date().toISOString().split('T')[0]
@@ -646,7 +645,7 @@ const Index = () => {
                 <TextField
                   id="moreInfo"
                   variant="standard"
-                  placeholder="more info..."
+                  placeholder="More info..."
                   InputProps={{
                     disableUnderline: true,
                     style: { padding: '4px', fontSize: '18px' },
