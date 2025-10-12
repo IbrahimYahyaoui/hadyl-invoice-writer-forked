@@ -1,137 +1,132 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import "../../page.css";
+'use client'
+import React, { useEffect, useState } from 'react'
+import '../../page.css'
 
-import {
-  Button,
-  ButtonGroup,
-  TextField,
-  TextareaAutosize,
-} from "@mui/material";
-import addIcon from "../../assets/icons/add.svg";
-import printIcon from "../../assets/icons/print.svg";
-import Image from "next/image";
-import phone from "../../assets/icons/phone.svg";
-import locationIcon from "../../assets/icons/location.svg";
-import QRCode from "react-qr-code";
+import { Button, ButtonGroup, TextareaAutosize, TextField } from '@mui/material'
+import addIcon from '../../assets/icons/add.svg'
+import printIcon from '../../assets/icons/print.svg'
+import Image from 'next/image'
+import phone from '../../assets/icons/phone.svg'
+import locationIcon from '../../assets/icons/location.svg'
+import QRCode from 'react-qr-code'
 
 const Index = () => {
-  const [mode, setMode] = useState<"BILL" | "BLANC">("BILL");
+  const [mode, setMode] = useState<'BILL' | 'BLANC'>('BILL')
   //
-  const [name, setName] = useState<string>("");
-  const [uid, setUid] = useState<string>("");
+  const [name, setName] = useState<string>('')
+  const [uid, setUid] = useState<string>('')
 
   // Blanc state
-  const [titleText, setTitleText] = useState<string>("");
-  const [bodyText, setBodyText] = useState<string>("");
-  const [headText, setHeadText] = useState<string>("");
-  const [isPrintDisabled, setIsPrintDisabled] = useState<boolean>(true);
-  const [dateValue, setDateValue] = useState<string>("");
+  const [titleText, setTitleText] = useState<string>('')
+  const [bodyText, setBodyText] = useState<string>('')
+  const [headText, setHeadText] = useState<string>('')
+  const [isPrintDisabled, setIsPrintDisabled] = useState<boolean>(true)
+  const [dateValue, setDateValue] = useState<string>('')
 
   // bill state
   const [currency, setCurrency] = useState<Intl.NumberFormat>(
-    new Intl.NumberFormat("fr-FR", {
-      style: "currency",
-      currency: "EUR",
-    })
-  );
+    new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'EUR',
+    }),
+  )
   useEffect(() => {
-    document.title = `Invoice  ${uid}`;
-  }, [uid]);
+    document.title = `Invoice  ${uid}`
+  }, [uid])
 
   const currencies = [
-    { value: "EUR", label: "€ - Euro" },
-    { value: "USD", label: "$ - US Dollar" },
-    { value: "GBP", label: "£ - UK Pound" },
-    { value: "TND", label: "TND - Tunisian Dinar" },
-    { value: "CHF", label: "CHF - Swiss Franc" },
-  ];
+    { value: 'EUR', label: '€ - Euro' },
+    { value: 'USD', label: '$ - US Dollar' },
+    { value: 'GBP', label: '£ - UK Pound' },
+    { value: 'TND', label: 'TND - Tunisian Dinar' },
+    { value: 'CHF', label: 'CHF - Swiss Franc' },
+  ]
   useEffect(() => {
     if (!window.location.hash) {
       //@ts-ignore
-      window.location = window.location + "#loaded";
-      window.location.reload();
+      window.location = window.location + '#loaded'
+      window.location.reload()
     }
-  }, []);
+  }, [])
 
   const changeCurrency = (currencyCode: string) => {
     setCurrency(
-      new Intl.NumberFormat("fr-FR", {
-        style: "currency",
+      new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
         currency: currencyCode,
-      })
-    );
-  };
+      }),
+    )
+  }
 
   // Payment details state
-  const [accountBank, setAccountBank] = useState<string>("BNP PARIBAS");
-  const [accountName, setAccountName] = useState<string>("HADYL Consult");
+  const [accountBank, setAccountBank] = useState<string>('BNP PARIBAS')
+  const [accountName, setAccountName] = useState<string>('HADYL Consult')
   const [accountNb, setAccountNb] = useState<string>(
-    "FR76 3000 4012 3700 0101 4989 014"
-  );
-  const [accountSwift, setAccountSwift] = useState<string>("BNPAFRPPXXX");
+    'FR76 3000 4012 3700 0101 4989 014',
+  )
+  const [accountSwift, setAccountSwift] = useState<string>('BNPAFRPPXXX')
 
-  const [Tht, setTht] = useState<string>("");
-  const [Ttc, setTtc] = useState<string>("");
+  const [Tht, setTht] = useState<string>('')
+  const [Ttc, setTtc] = useState<string>('')
   // Set default TVA as 20%
-  const [Tva, setTva] = useState<string>("20");
+  const [Tva, setTva] = useState<string>('20')
 
   const [items, setItems] = useState<
     {
-      qty: string;
-      desc: string;
-      unit: string;
-      price: string;
-      total: any;
+      qty: string
+      desc: string
+      unit: string
+      price: string
+      total: any
     }[]
   >([
     {
-      qty: "",
-      desc: "",
-      unit: "",
-      price: "",
-      total: "",
+      qty: '',
+      desc: '',
+      unit: '',
+      price: '',
+      total: '',
     },
-  ]);
+  ])
 
   const calculateItemTotal = (qty: string, price: string) => {
-    const quantity = parseFloat(qty);
-    const unitPrice = parseFloat(price);
+    const quantity = parseFloat(qty)
+    const unitPrice = parseFloat(price)
 
-    const subtotal = quantity * unitPrice;
+    const subtotal = quantity * unitPrice
 
-    const total = subtotal;
+    const total = subtotal
 
-    return total.toFixed(2);
-  };
+    return total.toFixed(2)
+  }
 
   useEffect(() => {
     const calculatedTotal = items
       .reduce((acc, item) => {
         // Remove non-numeric characters and currency signs from price and total
         const cleanPrice =
-          parseFloat(item.price.replace(/[^\d.,]/g, "").replace(",", ".")) || 0;
+          parseFloat(item.price.replace(/[^\d.,]/g, '').replace(',', '.')) || 0
         const cleanTotal =
-          parseFloat(item.total.replace(/[^\d.,]/g, "").replace(",", ".")) || 0;
+          parseFloat(item.total.replace(/[^\d.,]/g, '').replace(',', '.')) || 0
 
-        return acc + cleanTotal;
+        return acc + cleanTotal
       }, 0)
-      .toFixed(2);
+      .toFixed(2)
 
-    if (calculatedTotal !== "0.00") {
-      const totalNumber = parseFloat(calculatedTotal);
-      setTht(currency.format(totalNumber));
+    if (calculatedTotal !== '0.00') {
+      const totalNumber = parseFloat(calculatedTotal)
+      setTht(currency.format(totalNumber))
       // Use the dynamic TVA rate (parseFloat(Tva)) in the calculation
       const ttcValue = (
         totalNumber +
         (totalNumber * parseFloat(Tva)) / 100
-      ).toFixed(2);
-      setTtc(currency.format(parseFloat(ttcValue)));
+      ).toFixed(2)
+      setTtc(currency.format(parseFloat(ttcValue)))
     } else {
-      setTht("");
-      setTtc("");
+      setTht('')
+      setTtc('')
     }
-  }, [items, Tva, currency]);
+  }, [items, Tva, currency])
 
   const handlePrint = () => {
     // Format the prices and totals
@@ -140,52 +135,52 @@ const Index = () => {
         ...item,
         price: currency.format(parseFloat(item.price)),
         total: currency.format(parseFloat(item.total)),
-      };
-    });
+      }
+    })
 
     // Set the formatted values
-    setItems(formattedItems);
+    setItems(formattedItems)
 
     // Print the page
     setTimeout(() => {
-      window.print();
+      window.print()
 
       // Delay resetting the state to ensure the print dialog has opened
       setTimeout(() => {
         setItems(
           items.map((item) => ({
             ...item,
-            price: item.price ? parseFloat(item.price).toFixed(2) : "",
-            total: item.total ? parseFloat(item.total).toFixed(2) : "",
-          }))
-        );
-        setTht("");
-        setTtc("");
+            price: item.price ? parseFloat(item.price).toFixed(2) : '',
+            total: item.total ? parseFloat(item.total).toFixed(2) : '',
+          })),
+        )
+        setTht('')
+        setTtc('')
         // Reset TVA to default (20%) after printing
-        setTva("20");
-      }, 100);
-    }, 100);
-  };
+        setTva('20')
+      }, 100)
+    }, 100)
+  }
 
   useEffect(() => {
-    if (mode === "BLANC") {
-      setIsPrintDisabled(false);
-      return;
+    if (mode === 'BLANC') {
+      setIsPrintDisabled(false)
+      return
     }
 
     // Check if name or uid is empty
     if (!name || !uid) {
-      setIsPrintDisabled(true);
-      return;
+      setIsPrintDisabled(true)
+      return
     }
 
     // Check if any item fields are empty
     const allItemsValid = items.every(
-      (item) => item.qty && item.price && item.total && item.total !== "NaN"
-    );
+      (item) => item.qty && item.price && item.total && item.total !== 'NaN',
+    )
 
-    setIsPrintDisabled(!allItemsValid);
-  }, [items, name, uid, mode]);
+    setIsPrintDisabled(!allItemsValid)
+  }, [items, name, uid, mode])
 
   return (
     <div className={`pagesBg billPageWrapper`}>
@@ -193,10 +188,10 @@ const Index = () => {
       <ButtonGroup
         className="billSwitch"
         sx={{
-          position: "fixed",
-          left: "20px",
-          top: "20px",
-          backgroundColor: "white",
+          position: 'fixed',
+          left: '20px',
+          top: '20px',
+          backgroundColor: 'white',
           ml: 1,
           zIndex: 100,
         }}
@@ -206,40 +201,40 @@ const Index = () => {
       >
         <Button
           onClick={() => {
-            setMode("BLANC");
+            setMode('BLANC')
           }}
           sx={{
-            backgroundColor: mode === "BLANC" ? "#1477cc" : "black",
-            color: "white",
-            opacity: mode === "BLANC" ? 1 : 0.5,
+            backgroundColor: mode === 'BLANC' ? '#1477cc' : 'black',
+            color: 'white',
+            opacity: mode === 'BLANC' ? 1 : 0.5,
           }}
         >
           BLANC
         </Button>
         <Button
           onClick={() => {
-            setMode("BILL");
+            setMode('BILL')
           }}
           sx={{
-            backgroundColor: mode === "BILL" ? "#1477cc" : "black",
-            color: "white",
-            opacity: mode === "BILL" ? 1 : 0.5,
+            backgroundColor: mode === 'BILL' ? '#1477cc' : 'black',
+            color: 'white',
+            opacity: mode === 'BILL' ? 1 : 0.5,
           }}
         >
           Invoice
         </Button>
       </ButtonGroup>
 
-      {mode === "BILL" ? (
+      {mode === 'BILL' ? (
         <>
           {/* Currency Selection */}
           <ButtonGroup
             className="currencySelect"
             sx={{
-              position: "fixed",
-              right: "20px",
-              top: "20px",
-              backgroundColor: "white",
+              position: 'fixed',
+              right: '20px',
+              top: '20px',
+              backgroundColor: 'white',
               zIndex: 100,
             }}
             disableElevation
@@ -254,9 +249,9 @@ const Index = () => {
                 sx={{
                   backgroundColor:
                     currency.resolvedOptions().currency === cur.value
-                      ? "#1477cc"
-                      : "black",
-                  color: "white",
+                      ? '#1477cc'
+                      : 'black',
+                  color: 'white',
                   opacity:
                     currency.resolvedOptions().currency === cur.value ? 1 : 0.5,
                 }}
@@ -270,10 +265,10 @@ const Index = () => {
           <ButtonGroup
             className="tvaSelect"
             sx={{
-              position: "fixed",
-              right: "30px",
-              top: "230px", // adjust vertical position as needed
-              backgroundColor: "white",
+              position: 'fixed',
+              right: '30px',
+              top: '230px', // adjust vertical position as needed
+              backgroundColor: 'white',
               zIndex: 100,
             }}
             disableElevation
@@ -282,21 +277,21 @@ const Index = () => {
             aria-label="TVA button group"
           >
             <Button
-              onClick={() => setTva("0")}
+              onClick={() => setTva('0')}
               sx={{
-                backgroundColor: Tva === "0" ? "#1477cc" : "black",
-                color: "white",
-                opacity: Tva === "0" ? 1 : 0.5,
+                backgroundColor: Tva === '0' ? '#1477cc' : 'black',
+                color: 'white',
+                opacity: Tva === '0' ? 1 : 0.5,
               }}
             >
               TVA 0%
             </Button>
             <Button
-              onClick={() => setTva("20")}
+              onClick={() => setTva('20')}
               sx={{
-                backgroundColor: Tva === "20" ? "#1477cc" : "black",
-                color: "white",
-                opacity: Tva === "20" ? 1 : 0.5,
+                backgroundColor: Tva === '20' ? '#1477cc' : 'black',
+                color: 'white',
+                opacity: Tva === '20' ? 1 : 0.5,
               }}
             >
               TVA 20%
@@ -305,20 +300,20 @@ const Index = () => {
         </>
       ) : null}
 
-      {mode === "BILL" ? (
+      {mode === 'BILL' ? (
         <div
           className="addIcon"
           onClick={() => {
             setItems([
               ...items,
               {
-                qty: "",
-                desc: "",
-                unit: "",
-                price: "",
-                total: "",
+                qty: '',
+                desc: '',
+                unit: '',
+                price: '',
+                total: '',
               },
-            ]);
+            ])
           }}
         >
           <Image src={addIcon} alt="add" />
@@ -329,31 +324,31 @@ const Index = () => {
         onClick={handlePrint}
         disabled={isPrintDisabled}
         style={{
-          position: "fixed",
+          position: 'fixed',
           right: 0,
-          bottom: "30px",
-          margin: "20px",
-          cursor: "pointer",
-          background: "#cfd4d8",
-          borderRadius: "50%",
-          height: "60px",
-          width: "60px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          color: "#616161",
-          fontSize: "20px",
-          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+          bottom: '30px',
+          margin: '20px',
+          cursor: 'pointer',
+          background: '#cfd4d8',
+          borderRadius: '50%',
+          height: '60px',
+          width: '60px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: '#616161',
+          fontSize: '20px',
+          boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)',
         }}
       >
         <Image src={printIcon} alt="print" />
       </Button>
       <div
         className={
-          mode === "BILL" ? "invoiceWrapperBill" : "invoiceWrapperBlanc"
+          mode === 'BILL' ? 'invoiceWrapperBill' : 'invoiceWrapperBlanc'
         }
       >
-        {mode === "BLANC" ? (
+        {mode === 'BLANC' ? (
           <>
             <TextField
               id="outlined-basic"
@@ -375,7 +370,7 @@ const Index = () => {
               size="medium"
               InputProps={{
                 disableUnderline: true,
-                className: "textTitle",
+                className: 'textTitle',
               }}
               onChange={(e) => setTitleText(e.target.value)}
               value={titleText}
@@ -409,7 +404,7 @@ const Index = () => {
                   onChange={(e) => setUid(e.target.value)}
                   InputProps={{
                     disableUnderline: true,
-                    style: { fontSize: "22px", fontWeight: "bold" },
+                    style: { fontSize: '22px', fontWeight: 'bold' },
                   }}
                 />
               </div>
@@ -427,7 +422,7 @@ const Index = () => {
                   }}
                   multiline
                   rows={3}
-                  sx={{ width: "60%", marginLeft: "-30px", marginTop: "-5px" }}
+                  sx={{ width: '60%', marginLeft: '-30px', marginTop: '-5px' }}
                 />
               </div>
               <div className="invoiceHeaderCustomerDate">
@@ -438,12 +433,12 @@ const Index = () => {
                   placeholder="7/4/2021"
                   value={
                     dateValue.length === 0
-                      ? new Date().toISOString().split("T")[0]
+                      ? new Date().toISOString().split('T')[0]
                       : dateValue
                   }
                   InputProps={{
                     disableUnderline: true,
-                    style: { fontSize: "18px" },
+                    style: { fontSize: '18px' },
                   }}
                   onChange={(e) => setDateValue(e.target.value)}
                 />
@@ -481,15 +476,15 @@ const Index = () => {
                       InputProps={{
                         disableUnderline: true,
                         style: {
-                          fontSize: "18px",
-                          width: "100px",
-                          marginTop: "5px",
+                          fontSize: '18px',
+                          width: '100px',
+                          marginTop: '5px',
                         },
                         inputProps: {
                           style: {
-                            textAlign: "center",
+                            textAlign: 'center',
                             padding: 0,
-                            lineHeight: "normal",
+                            lineHeight: 'normal',
                           },
                         },
                       }}
@@ -500,16 +495,16 @@ const Index = () => {
                               const updatedItem = {
                                 ...item,
                                 qty: e.target.value,
-                              };
+                              }
                               updatedItem.total = calculateItemTotal(
                                 updatedItem.qty,
-                                updatedItem.price
-                              );
-                              return updatedItem;
+                                updatedItem.price,
+                              )
+                              return updatedItem
                             }
-                            return item;
-                          })
-                        );
+                            return item
+                          }),
+                        )
                       }}
                       value={item.qty}
                     />
@@ -526,9 +521,9 @@ const Index = () => {
                         inputProps: {
                           minRows: 2,
                           style: {
-                            resize: "none",
+                            resize: 'none',
                             width: 220,
-                            fontSize: "16px",
+                            fontSize: '16px',
                           },
                         },
                       }}
@@ -540,11 +535,11 @@ const Index = () => {
                               return {
                                 ...item,
                                 desc: e.target.value,
-                              };
+                              }
                             }
-                            return item;
-                          })
-                        );
+                            return item
+                          }),
+                        )
                       }}
                       value={item.desc}
                     />
@@ -557,13 +552,13 @@ const Index = () => {
                       InputProps={{
                         disableUnderline: true,
                         style: {
-                          fontSize: "18px",
-                          marginTop: "5px",
-                          width: "60px",
+                          fontSize: '18px',
+                          marginTop: '5px',
+                          width: '60px',
                         },
                         inputProps: {
                           style: {
-                            textAlign: "center",
+                            textAlign: 'center',
                             padding: 0,
                           },
                         },
@@ -573,9 +568,9 @@ const Index = () => {
                           items.map((item, i) =>
                             i === index
                               ? { ...item, unit: e.target.value }
-                              : item
-                          )
-                        );
+                              : item,
+                          ),
+                        )
                       }}
                       value={item.unit}
                     />
@@ -589,13 +584,13 @@ const Index = () => {
                       InputProps={{
                         disableUnderline: true,
                         style: {
-                          fontSize: "18px",
-                          marginTop: "5px",
-                          width: "120px",
+                          fontSize: '18px',
+                          marginTop: '5px',
+                          width: '120px',
                         },
                         inputProps: {
                           style: {
-                            textAlign: "center",
+                            textAlign: 'center',
                             padding: 0,
                           },
                         },
@@ -607,16 +602,16 @@ const Index = () => {
                               const updatedItem = {
                                 ...item,
                                 price: e.target.value,
-                              };
+                              }
                               updatedItem.total = calculateItemTotal(
                                 updatedItem.qty,
-                                updatedItem.price
-                              );
-                              return updatedItem;
+                                updatedItem.price,
+                              )
+                              return updatedItem
                             }
-                            return item;
-                          })
-                        );
+                            return item
+                          }),
+                        )
                       }}
                       value={item.price}
                     />
@@ -629,18 +624,18 @@ const Index = () => {
                       InputProps={{
                         disableUnderline: true,
                         style: {
-                          fontSize: "18px",
-                          width: "120px",
-                          marginTop: "5px",
+                          fontSize: '18px',
+                          width: '120px',
+                          marginTop: '5px',
                         },
                         inputProps: {
                           style: {
-                            textAlign: "center",
+                            textAlign: 'center',
                             padding: 0,
                           },
                         },
                       }}
-                      value={item.total || ""}
+                      value={item.total || ''}
                     />
                   </div>
                 </div>
@@ -654,7 +649,7 @@ const Index = () => {
                   placeholder="more info..."
                   InputProps={{
                     disableUnderline: true,
-                    style: { padding: "4px", fontSize: "18px" },
+                    style: { padding: '4px', fontSize: '18px' },
                   }}
                   multiline
                   rows={4}
@@ -672,13 +667,13 @@ const Index = () => {
                       InputProps={{
                         disableUnderline: true,
                         style: {
-                          fontSize: "18px",
-                          height: "30px",
+                          fontSize: '18px',
+                          height: '30px',
                         },
                       }}
                       value={Tht}
                       onChange={(e) => {
-                        setTht(e.target.value);
+                        setTht(e.target.value)
                       }}
                     />
                   </div>
@@ -693,18 +688,18 @@ const Index = () => {
                       InputProps={{
                         disableUnderline: true,
                         style: {
-                          fontSize: "18px",
-                          height: "30px",
+                          fontSize: '18px',
+                          height: '30px',
                         },
                       }}
                       value={
                         Tht.length > 0
                           ? currency.format(
-                              (parseFloat(Tht.replace(/[^\d.,]/g, "")) *
+                              (parseFloat(Tht.replace(/[^\d.,]/g, '')) *
                                 parseFloat(Tva)) /
-                                100
+                                100,
                             )
-                          : ""
+                          : ''
                       }
                       size="medium"
                     />
@@ -722,13 +717,13 @@ const Index = () => {
                       InputProps={{
                         disableUnderline: true,
                         style: {
-                          fontSize: "22px",
-                          height: "30px",
+                          fontSize: '22px',
+                          height: '30px',
                         },
                       }}
                       value={Ttc}
                       onChange={(e) => {
-                        setTtc(e.target.value);
+                        setTtc(e.target.value)
                       }}
                     />
                   </div>
@@ -759,11 +754,11 @@ const Index = () => {
                             placeholder="Attijari BANK"
                             InputProps={{
                               disableUnderline: true,
-                              style: { height: "20px", width: "250px" },
+                              style: { height: '20px', width: '250px' },
                             }}
                             value={accountBank}
                             onChange={(e) => {
-                              setAccountBank(e.target.value);
+                              setAccountBank(e.target.value)
                             }}
                           />
                         </td>
@@ -777,11 +772,11 @@ const Index = () => {
                             placeholder="Ste HADYL Consult"
                             InputProps={{
                               disableUnderline: true,
-                              style: { height: "20px", width: "250px" },
+                              style: { height: '20px', width: '250px' },
                             }}
                             value={accountName}
                             onChange={(e) => {
-                              setAccountName(e.target.value);
+                              setAccountName(e.target.value)
                             }}
                           />
                         </td>
@@ -796,14 +791,14 @@ const Index = () => {
                             InputProps={{
                               disableUnderline: true,
                               style: {
-                                height: "20px",
-                                width: "400px",
-                                flexWrap: "nowrap",
+                                height: '20px',
+                                width: '400px',
+                                flexWrap: 'nowrap',
                               },
                             }}
                             value={accountNb}
                             onChange={(e) => {
-                              setAccountNb(e.target.value);
+                              setAccountNb(e.target.value)
                             }}
                           />
                         </td>
@@ -817,11 +812,11 @@ const Index = () => {
                             placeholder="BSTUTNTT"
                             InputProps={{
                               disableUnderline: true,
-                              style: { height: "20px", width: "250px" },
+                              style: { height: '20px', width: '250px' },
                             }}
                             value={accountSwift}
                             onChange={(e) => {
-                              setAccountSwift(e.target.value);
+                              setAccountSwift(e.target.value)
                             }}
                           />
                         </td>
@@ -840,12 +835,12 @@ const Index = () => {
           <div>
             <p
               style={{
-                display: "flex",
-                alignItems: "center",
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
               <Image src={locationIcon} alt="add" width={20} />
-              53 Rue Amiral Mouchez 75013 Paris -{" "}
+              53 Rue Amiral Mouchez 75013 Paris -{' '}
               <Image src={phone} alt="add" width={20} />
               Tél. : +33 6 29 14 16 58
             </p>
@@ -862,8 +857,8 @@ const Index = () => {
           <p>
             <QRCode
               size={256}
-              style={{ height: "70px", width: "70px" }}
-              value={"+33 6 29 14 16 58"}
+              style={{ height: '70px', width: '70px' }}
+              value={'+33 6 29 14 16 58'}
               viewBox={`0 0 256 256`}
             />
           </p>
@@ -873,7 +868,7 @@ const Index = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Index;
+export default Index

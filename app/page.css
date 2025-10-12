@@ -1,22 +1,26 @@
 .pagesBg {
   background-color: #0c1713;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjOWU5ZTllIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiM4ODgiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=");
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjOWU5ZTllIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiM4ODgiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=');
 }
+
 .branchSelectionWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
 }
+
 .branchSelectionWrapper .branchSelectionBox {
   margin: 20px;
   border-radius: 10px;
   cursor: pointer;
 }
+
 .billSwitch {
   position: fixed;
   left: 0;
 }
+
 .addIcon {
   position: fixed;
   right: 0;
@@ -34,6 +38,7 @@
   font-size: 20px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
+
 .printIcon {
   position: fixed;
   right: 0;
@@ -51,35 +56,39 @@
   font-size: 20px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
+
 .billPageWrapper {
-  height: "100%";
+  height: '100%';
   display: flex;
   justify-content: center;
 }
+
 .invoiceWrapperBlanc {
   width: 21cm !important;
   height: 29.7cm !important;
   margin: 20px 0;
   background: #fff;
   justify-self: center;
-  background-image: url("./assets/blanc.png");
+  background-image: url('./assets/blanc.png');
   background-size: cover;
   position: relative;
   zoom: 100%;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
 }
+
 .invoiceWrapperBill {
   width: 21cm !important;
   height: 29.7cm !important;
   margin: 20px 0;
   background: #fff;
   justify-self: center;
-  background-image: url("./assets/blanc.png");
+  background-image: url('./assets/blanc.png');
   background-size: cover;
   position: relative;
   zoom: 100%;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
 }
+
 .textNote {
   position: absolute;
   font-weight: normal;
@@ -90,6 +99,7 @@
   height: 125px !important;
   direction: rtl;
 }
+
 .textTitle {
   font-size: 26px;
   font-weight: bolder !important;
@@ -104,6 +114,7 @@
   max-height: 100px;
   text-align: center;
 }
+
 .textBody {
   position: absolute;
   font-weight: normal;
@@ -116,6 +127,7 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
 .footerInfo {
   display: flex;
   align-items: center;
@@ -134,16 +146,20 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
 .footerInfo span {
   font-weight: 900;
   color: #12acde;
 }
+
 .footerInfo:nth-child(2) {
   padding: 20px;
 }
+
 .footerInfo p {
   margin: 10px 0;
 }
+
 .invoiceHeaderBg {
   right: 0;
   top: 130px;
@@ -152,12 +168,14 @@
   position: absolute;
   width: 480px;
 }
+
 .billInvoiceTitle {
   font-size: 70px;
   position: absolute;
   right: 40px;
   top: 50px;
 }
+
 .invoiceHeaderInputUid {
   display: flex;
   align-items: center;
@@ -169,11 +187,13 @@
   right: 0;
   width: 460px;
 }
+
 .invoiceHeaderInputUid p {
   font-weight: 400;
   margin-right: 20px;
   right: 0;
 }
+
 .invoiceHeaderCustomerInput {
   display: flex;
   align-items: flex-start;
@@ -184,16 +204,19 @@
   right: 0;
   width: 460px;
 }
+
 .invoiceHeaderCustomerInput .texarea {
   margin-top: -5;
   padding: 0;
   border: 1px solid #000;
 }
+
 .invoiceHeaderCustomerInput p {
   font-weight: normal;
   margin-right: 115px;
   right: 0;
 }
+
 .invoiceHeaderCustomerDate {
   display: flex;
   align-items: center;
@@ -205,12 +228,14 @@
   right: 0;
   width: 460px;
 }
+
 .invoiceHeaderCustomerDate p {
   font-weight: normal;
   margin-right: 50px;
   right: 0;
   font-size: 20px !important;
 }
+
 .billTable {
   position: absolute;
   top: 320px;
@@ -219,9 +244,11 @@
   border: 1px solid #eee;
   height: 330px;
 }
+
 .billTable thead {
   background: rgba(0, 0, 0, 0.3);
 }
+
 .billTable th {
   border-right: 0.5px solid #eee;
   border-left: 0.5px solid #eee;
@@ -232,6 +259,7 @@
   height: 30px;
   font-size: 100%;
 }
+
 .billTable td {
   border-right: 0.5px solid #eee;
   border-left: 0.5px solid #eee;
@@ -239,6 +267,7 @@
   color: #000;
   padding: 5px;
 }
+
 .billTableItems {
   position: absolute;
   top: 350px;
@@ -247,12 +276,14 @@
   display: grid;
   width: 700px;
 }
+
 .billItem {
   display: grid;
   grid-template-columns: 100px 240px 60px 120px 120px;
   align-items: start;
   gap: 10px;
 }
+
 .billItemQte,
 .billItemDesc,
 .billItemUnit,
@@ -266,18 +297,22 @@
   margin-left: 0px;
   width: 90px;
 }
+
 .billItemAmount {
   margin-left: 0px;
   width: 90px;
 }
+
 .billItemQte {
   width: 57%;
   margin-left: 0px;
 }
+
 .billItemUnit {
   width: 57%;
   margin-left: 0px;
 }
+
 .billItemDesc textarea {
   width: 100%;
   border: none;
@@ -288,6 +323,7 @@
   background: transparent;
   overflow: hidden;
 }
+
 .tableFooterMoreInfo {
   position: absolute;
   top: 660px;
@@ -297,6 +333,7 @@
   border: 2px solid #eee;
   background: rgba(255, 255, 255, 0.6);
 }
+
 .tableFooterTotals {
   position: absolute;
   top: 660px;
@@ -310,34 +347,41 @@
   grid-template-columns: 1fr;
   gap: 10px;
 }
+
 .tableFooterRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
 }
+
 .tableFooterTitle {
   color: #a29e9e;
   font-size: 18px;
   font-weight: bold;
 }
+
 .tableFooterValue {
   text-align: right;
   display: flex;
   justify-content: flex-end;
 }
+
 .tableFooterValue > div {
   width: 100%;
 }
+
 .tableFooterValue input {
   text-align: right;
   height: 30px;
   font-size: 18px;
 }
+
 .totalTtc {
   font-size: 22px;
   font-weight: bold;
   color: black;
 }
+
 .paymentDetails {
   position: absolute;
   top: 820px;
@@ -350,16 +394,20 @@
   justify-content: space-between;
   padding: 0 60px 0 15px;
 }
+
 .paymentDetailsInfoTable {
   text-align: left;
 }
+
 .paymentDetailsInfoTable p {
   font-weight: 400;
 }
+
 .paymentDetailsInfoTable tr th {
   align-items: left;
   padding: 0px 10px;
 }
+
 .footer {
   position: absolute;
   bottom: 5px;
@@ -370,44 +418,55 @@
   font-size: 14px;
   font-weight: 400;
 }
+
 .footer p {
   font-size: 22px;
 }
+
 /* Styles for printing */
 @media print {
   .pagesBg {
     background-color: #fff;
   }
+
   .billSwitch {
     display: none;
   }
+
   .billSwitch * {
     display: none;
   }
+
   .invoiceWrapperBlanc,
   .invoiceWrapperBill {
     margin: 0;
     box-shadow: none;
   }
+
   .currencySelect {
     display: none;
   }
+
   .billItemPrice {
     margin-left: 0px;
   }
+
   .billItemAmount {
     margin-left: 0px;
   }
+
   .alignCenterONPrint {
     align-items: center;
   }
+
   .no-print {
     opacity: 0;
   }
 }
+
 @media print {
   body {
-    background: url("./assets/blanc.png") no-repeat center center;
+    background: url('./assets/blanc.png') no-repeat center center;
     background-size: cover;
   }
 
@@ -416,6 +475,7 @@
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+
   /*  no margin  */
   @page {
     margin: 0;

@@ -1,0 +1,57 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+/.pnp
+.pnp.js
+.next
+
+# testing
+/coverage
+# *~
+*.swp
+tmp/
+# production
+build
+
+# misc
+.env
+.env.local
+.env.staging
+.env.production
+.DS_Store
+.env.development.local
+.env.test.local
+.env.production.local
+
+# If Packages have their independent repo
+# /packages
+
+# ignore log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.idea/
+.vscode/
+node_modules/
+*.tgz
+my-app*
+template/src/__tests__/__snapshots__/
+lerna-debug.log
+/.changelog
+.npm/
+packages/server/node_modules
+packages/server/error.log
+packages/server/debug.log
+packages/web/.env
+packages/reusecore
+packages/cloud
+dist/
+
+.docz
+.now
+.vercel
+/package-lock.json
+yarn.lock
+/.eslintcache
+merge_deploy_*.sh
