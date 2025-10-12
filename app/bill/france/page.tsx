@@ -392,10 +392,9 @@ const Index = () => {
         ) : (
           <>
             <h2 className="billInvoiceTitle">Invoice</h2>
-            <div className="invoiceHeader">
-              <p className="invoiceHeaderBg"></p>
+            <div className="invoiceHeader invoiceHeaderBg">
               <div className="invoiceHeaderInputUid">
-                <p>Number #</p>
+                <label htmlFor="uid">Number #</label>
                 <TextField
                   id="uid"
                   variant="standard"
@@ -404,29 +403,24 @@ const Index = () => {
                   onChange={(e) => setUid(e.target.value)}
                   InputProps={{
                     disableUnderline: true,
-                    style: { fontSize: '22px', fontWeight: 'bold' },
+                    style: { fontSize: 22, fontWeight: 'bold' },
                   }}
                 />
               </div>
-
               <div className="invoiceHeaderCustomerInput">
-                <p>To :</p>
+                <label htmlFor="ste">To :</label>
                 <TextField
                   id="ste"
                   variant="standard"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Ste Foulen Foulani"
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
+                  InputProps={{ disableUnderline: true }}
                   multiline
-                  rows={3}
-                  sx={{ width: '60%', marginLeft: '-30px', marginTop: '-5px' }}
                 />
               </div>
               <div className="invoiceHeaderCustomerDate">
-                <p>Date:</p>
+                <label htmlFor="date">Date:</label>
                 <TextField
                   id="date"
                   variant="standard"
