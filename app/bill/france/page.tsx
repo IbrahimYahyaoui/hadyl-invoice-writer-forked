@@ -412,7 +412,7 @@ const Index = () => {
               <div className="invoiceHeaderCustomerInput">
                 <p>To :</p>
                 <TextField
-                  id="uid"
+                  id="ste"
                   variant="standard"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -428,7 +428,7 @@ const Index = () => {
               <div className="invoiceHeaderCustomerDate">
                 <p>Date:</p>
                 <TextField
-                  id="uid"
+                  id="date"
                   variant="standard"
                   value={
                     dateValue.length === 0
