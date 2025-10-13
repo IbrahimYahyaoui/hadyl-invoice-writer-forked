@@ -27,6 +27,30 @@ html {
   :-moz-placeholder {
     color: transparent !important;
   }
+
+  /* Hide buttons, button groups, and controllers in print view */
+  button,
+  .btn,
+  .button,
+  .btn-group,
+  .button-group,
+  .controller,
+  .controls,
+  .form-actions,
+  .action-buttons,
+  .addIcon,
+  .printIcon,
+  .billSwitch {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Ensure no-clickable areas don't create blank spaces */
+  [onclick],
+  [role='button'],
+  [tabindex] {
+    pointer-events: none !important;
+  }
 }
 
 .pagesBg {
@@ -197,7 +221,7 @@ html {
   top: 130px;
   position: absolute;
   min-height: 155px;
-  min-width: 480px;
+  width: 500px;
   padding: 6px 16px;
 
   &.invoiceHeaderBg {
@@ -210,12 +234,11 @@ html {
     font-weight: bold !important;
     font-size: 20px !important;
     position: relative;
-    width: 460px;
   }
 
   .invoiceHeaderInputUid label {
     font-weight: 400;
-    margin-right: 20px;
+    margin-right: 12px;
   }
 
   .invoiceHeaderCustomerInput {
@@ -290,7 +313,7 @@ html {
 
 .billTableItems {
   position: absolute;
-  bottom: 690px;
+  top: 420px;
   margin: 16px 50px;
   font-size: 26px;
   display: grid;

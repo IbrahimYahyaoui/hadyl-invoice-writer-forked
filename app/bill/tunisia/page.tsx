@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import '../../page.css'
 
 import { Button, ButtonGroup, TextareaAutosize, TextField } from '@mui/material'
@@ -12,8 +12,13 @@ import locationIcon from '../../assets/icons/location.svg'
 import QRCode from 'react-qr-code'
 
 const index = () => {
+  const customerInputRef = useRef<HTMLDivElement>(null)
+  const billTableRef = useRef<HTMLTableElement>(null)
+  const billTableItemsRef = useRef<HTMLDivElement>(null)
+  const [tableHeight, setTableHeight] = useState(515)
+  const [itemsTop, setItemsTop] = useState(260)
+
   const [mode, setMode] = useState<'BILL' | 'BLANC'>('BILL')
-  //
   const [name, setName] = useState<string>('')
   const [uid, setUid] = useState<string>('')
 
@@ -23,6 +28,7 @@ const index = () => {
   const [headText, setHeadText] = useState<string>('')
   const [isPrintDisabled, setIsPrintDisabled] = useState<boolean>(true)
   const [dateValue, setDateValue] = useState<string>('')
+
   useEffect(() => {
     if (!window.location.hash) {
       //@ts-ignore
@@ -33,6 +39,15 @@ const index = () => {
   useEffect(() => {
     document.title = `Invoice ${uid}`
   }, [uid])
+
+  // Update table heights when customer input changes
+  useEffect(() => {
+    if (customerInputRef.current) {
+      const inputHeight = Math.max(customerInputRef.current.offsetHeight, 170)
+      setTableHeight(515 - inputHeight)
+      setItemsTop(170 + inputHeight)
+    }
+  }, [name, customerInputRef])
 
   // bill state
   const [currency, setCurrency] = useState<Intl.NumberFormat>(
@@ -358,7 +373,10 @@ const index = () => {
         ) : (
           <>
             <h2 className="billInvoiceTitle">Invoice</h2>
-            <div className="invoiceHeader invoiceHeaderBg">
+            <div
+              className="invoiceHeader invoiceHeaderBg"
+              ref={customerInputRef}
+            >
               <div className="invoiceHeaderInputUid">
                 <label htmlFor="uid">Number #</label>
                 <TextField
@@ -383,6 +401,7 @@ const index = () => {
                   placeholder="Ste Foulen Foulani"
                   InputProps={{ disableUnderline: true }}
                   multiline
+                  minRows={3}
                 />
               </div>
               <div className="invoiceHeaderCustomerDate">
@@ -404,7 +423,15 @@ const index = () => {
               </div>
             </div>
 
-            <table className="billTable" cellSpacing="0">
+            <table
+              className="billTable"
+              cellSpacing="0"
+              ref={billTableRef}
+              style={{
+                height: `${tableHeight}px`,
+                overflow: 'auto',
+              }}
+            >
               <thead>
                 <tr>
                   <th
@@ -455,7 +482,15 @@ const index = () => {
                 </tr>
               </tbody>
             </table>
-            <div className="billTableItems">
+            <div
+              className="billTableItems"
+              ref={billTableItemsRef}
+              style={{
+                top: `${itemsTop}px`,
+                position: 'absolute',
+                width: 'calc(100% - 100px)',
+              }}
+            >
               {items.map((item, index) => (
                 <div key={index} className="billItem">
                   <div className="billItemQte">

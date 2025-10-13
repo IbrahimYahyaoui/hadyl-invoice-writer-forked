@@ -166,7 +166,7 @@
   top: 130px;
   position: absolute;
   min-height: 155px;
-  min-width: 480px;
+  width: 500px;
   padding: 6px 16px;
 
   &.invoiceHeaderBg {
@@ -179,12 +179,11 @@
     font-weight: bold !important;
     font-size: 20px !important;
     position: relative;
-    width: 460px;
   }
 
   .invoiceHeaderInputUid label {
     font-weight: 400;
-    margin-right: 20px;
+    margin-right: 12px;
   }
 
   .invoiceHeaderCustomerInput {
@@ -259,7 +258,7 @@
 
 .billTableItems {
   position: absolute;
-  bottom: 690px;
+  top: 420px;
   margin: 16px 50px;
   font-size: 26px;
   display: grid;
